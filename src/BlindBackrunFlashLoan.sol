@@ -1,7 +1,7 @@
 pragma solidity ^0.8.19;
 
-import "openzeppelin/token/ERC20/IERC20.sol";
-import "forge-std/console.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+//import "forge-std/console.sol";
 import "./BlindBackrunLogic.sol";
 import "./IWETH.sol";
 
@@ -57,7 +57,8 @@ contract BlindBackrunFlashLoan is BlindBackrunLogic, IFlashLoanRecipient {
         uint256[] memory feeAmounts,
         bytes memory userData
     ) external {
-        tokens;feeAmounts; // suppress warnings about unused variables by referencing them
+        tokens;
+        feeAmounts; // suppress warnings about unused variables by referencing them
         require(
             msg.sender == address(vault),
             "FlashLoanRecipient: caller is not the vault"
@@ -79,9 +80,6 @@ contract BlindBackrunFlashLoan is BlindBackrunLogic, IFlashLoanRecipient {
         );
 
         // This contract will not work if balancer implements a flash loan fee as we are not adding "feeAmounts[0]" below
-        WETH.transfer(
-            address(vault),
-            amounts[0]
-        );
+        WETH.transfer(address(vault), amounts[0]);
     }
 }
